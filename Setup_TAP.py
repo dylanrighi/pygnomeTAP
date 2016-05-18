@@ -85,7 +85,7 @@ StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seas
 
 # number of start times you want in each season:
 #NumStarts = 5000
-NumStarts = 1000
+NumStarts = 500
 
 # # Length of release in hours  (0 for instantaneous)
 # ReleaseLength = 24 * 90 #24 hrs * XX days
@@ -99,7 +99,7 @@ ReleaseLength = 30 *24  # in hours
 PyGnome_script = "script_ArcticTAP"
 
 # number of Lagrangian elements you want in the GNOME run
-NumLEs = 10000
+NumLEs = 1000
                             
 # we only have "MediumCrude"  in the data for now (see OilWeathering.py)
 OilWeatheringType = None
