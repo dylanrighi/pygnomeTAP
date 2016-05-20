@@ -46,6 +46,8 @@ start_positions = open(os.path.join(setup.RootDir,
 start_positions = [pos.split(',') for pos in start_positions]
 start_positions = [( float(pos[0]), float(pos[1]) ) for pos in start_positions]
 
+release_duration = timedelta(setup.ReleaseLength)
+
 run_time = timedelta(hours=setup.TrajectoryRunLength)
 model.duration = run_time
 
@@ -85,7 +87,7 @@ for Season in setup.StartTimeFiles:
             spill = point_line_release_spill(num_elements=setup.NumLEs,
                                              start_position=( start_position[0], start_position[1], 0.0 ),
                                              release_time=start_time,
-                                             end_release_time=start_time+run_time
+                                             end_release_time=start_time+release_duration
                                              )
 
             # set up the renderer location
