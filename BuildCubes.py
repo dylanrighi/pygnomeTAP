@@ -147,6 +147,7 @@ if setup.ReceptorType == "Grid":
                 except KeyError:
                     raise ValueError("Unsupported Cube Data Type: %s"%CubeDataType)
             
+        
             #print " The Cube Shape is: %s"%(Cube.shape,)
             #print "The cube is %i elements, each one %i bytes"%(np.product(Cube.shape), Cube.itemsize())
             print "Computing the whole cube took %f seconds (%f minutes)"%((time()- start),(time()- start)/60)

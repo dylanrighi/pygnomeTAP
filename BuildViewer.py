@@ -16,8 +16,9 @@ if not os.path.isdir(TAPViewerDir):
     print "making new TAP Viewer Directory"
     os.mkdir(TAPViewerDir)
 
-# copy the exe
-# shutil.copy(os.path.join(setup.TAPViewerSource, "TAP.exe"), TAPViewerDir)
+# copy the exe and settings files
+shutil.copy(os.path.join(setup.RootDir, 'Tapfiles', 'TapView', 'TAP.exe'), TAPViewerDir)
+shutil.copy(os.path.join(setup.RootDir, 'Tapfiles', 'TapView', 'SETTINGS.TAP'), TAPViewerDir)
 
 # Check for TAPDATA
 TAPDATADir = os.path.join(TAPViewerDir,"TAPDATA")
@@ -51,4 +52,13 @@ for (season, junk) in setup.Seasons:
         print "Moving:", name
         shutil.move(os.path.join(SeasonCubesPath,name),
                      os.path.join(SeasonPath,name) )
+
+# copy the script and Setup_TAP files to viewer dir for archive
+setfile = os.path.join(setup.RootDir,'Setup_TAP.py')
+shutil.copy(setfile, TAPViewerDir)
+
+shutil.copy(setup.PyGnome_script+'.py', TAPViewerDir)
+
+# move Trajectories to TapViewer dir
+shutil.move(setup.TrajectoriesPath, TAPViewerDir)
 

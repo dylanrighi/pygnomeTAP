@@ -26,10 +26,11 @@ from gnome.outputters import NetCDFOutput
 
 # define base directory
 #base_dir = os.path.dirname(__file__)
+
 # my laptop basedir
-# base_dir = 'C:\Users\dylan.righi\Science\ArcticTAP'
+base_dir = 'C:\Users\dylan.righi\Science\ArcticTAP'
 # Gonzo
-base_dir = '/data/dylan/ArcticTAP/'
+# base_dir = '/data/dylan/ArcticTAP/'
 
 
 def make_model(images_dir=os.path.join(base_dir, 'images')):

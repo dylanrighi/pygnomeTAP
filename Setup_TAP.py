@@ -43,8 +43,8 @@ TimeSeries = None
 # time span of your data set
 # current data files on my laptop...change for Gonzo runs
 # DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-#                 datetime.datetime(1985, 2, 10, 10) 
-#                 )
+#                datetime.datetime(1985, 5, 10, 10) 
+#                )
 # first 100 ROMS data files
 # DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 #                 datetime.datetime(1986, 3, 21, 22)
@@ -85,21 +85,21 @@ StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seas
 
 # number of start times you want in each season:
 #NumStarts = 5000
-NumStarts = 500
+NumStarts = 10
 
 # # Length of release in hours  (0 for instantaneous)
-# ReleaseLength = 24 * 90 #24 hrs * XX days
+ReleaseLength = 30*24
 
-ReleaseLength = 30 *24  # in hours
+# ReleaseLength = 10 *24  # in hours
 
 # name of the GNOME SAV file you want to use
 # note: GNOME locks it (for a very brief time when loading) 
 # which means you need a separate copy for each
 # instance of GNOME you want to run (OR just don't start multiple GNOMES too quickly)
-PyGnome_script = "script_ArcticTAP"
+PyGnome_script = "script_ArcticTAP_orrtap"
 
 # number of Lagrangian elements you want in the GNOME run
-NumLEs = 1000
+NumLEs = 10000
                             
 # we only have "MediumCrude"  in the data for now (see OilWeathering.py)
 OilWeatheringType = None
@@ -134,22 +134,18 @@ CubesPath = "Cubes_n" + str(NumLEs)
 # CubesPath = "Cubes_n5000"
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_site_one.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_test.txt")
 
 # this code reads the file
 CubeStartSites = [x.split("#", 1)[0].strip() for x in open(CubeStartSitesFilename).readlines()]
 CubeStartSites = [x for x in CubeStartSites if x]
 
 
-## TAP Viewer Data (for SITE.TXT file)
-##
-TAPViewerSource = RootDir # where the TAP view, etc lives.
-
 MapName = "Arctic TAP"
 MapFileName, MapFileType = ("arctic_coast3.bna", "BNA")
 
-# days = [1, 3, 5, 7, 10, 15, 20, 30, 50, 70, 90, 120, 180]
-days = [1, 3, 5, 7, 10, 15, 20, 30, 60]
+days = [1, 3, 5, 7, 10, 15, 20, 30, 50, 70, 90, 120, 180]
+# days = [1, 3, 5, 7, 10, 15, 20, 30]
 # days = [1, 2, 3]
 OutputTimes = [24*i for i in days] # output times in hours(calculated from days
 
@@ -170,20 +166,24 @@ OutputUserStrings = ["1 day",
                      "20 days",
                      "30 days",
                      "60 days",
-#                     "70 days",
-#                     "90 days",
-#                     "120 days",
-#                     "180 days",
+                     "70 days",
+                     "90 days",
+                     "120 days",
+                     "180 days",
                      ]
 
 # this is calculated from the OutputTimes
 # TrajectoryRunLength = OutputTimes[-1]
-TrajectoryRunLength = 24 * 60
+TrajectoryRunLength = 24 * 180
 
 PresetLOCS = ["5 barrels", "10 barrels", "20 barrels"]
 PresetSpillAmounts = ["1000 barrels", "100 barrels"]
 
+## TAP Viewer Data (for SITE.TXT file)
+##
+TAPViewerSource = RootDir # where the TAP view, etc lives.
 ## setup for the Viewer"
+
 TAPViewerPath = "TapView_n" + str(NumLEs)
 # TAPViewerPath = "TapView_n5000"
 
