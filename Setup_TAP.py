@@ -102,9 +102,9 @@ StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seas
 
 # number of start times you want in each season:
 #NumStarts = 5000
-NumStarts = 100
+NumStarts = 400
 RunStarts = range(0,NumStarts)
-RunStarts = range(0,2)
+RunStarts = range(0,50)
 
 # # Length of release in hours  (0 for instantaneous)
 ReleaseLength = 30*24  # in hours
@@ -154,8 +154,8 @@ CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start tim
 
 CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
-#RunSites = range(0,len(spos))
-RunSites = range(0,4)
+RunSites = range(0,len(spos))
+# RunSites = range(0,4)
 
 
 # this code reads the file
