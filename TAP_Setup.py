@@ -22,6 +22,8 @@ except IndexError:
 if not os.path.exists(RootDir):
     raise Exception("RootDir: %s Doesn't exist"%RootDir)
 
+RunLims = sys.argv[2]
+
 sys.path.insert(0, RootDir)
 setup = __import__('Setup_TAP')
 setup.RootDir = RootDir

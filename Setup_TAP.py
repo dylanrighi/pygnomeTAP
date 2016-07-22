@@ -7,7 +7,7 @@ All the data required to set up and build TAP cubes + site.txt file should be in
 
 """
 
-import os, datetime
+import os, sys, datetime
 import numpy as np
 
 import netCDF4 as nc4	
@@ -58,8 +58,8 @@ DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 
 
 DataGaps = ( )
-# Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
-Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
+Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
+# Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
 
 # do some finagling with the start times in the data files
 fn = os.path.join(Data_Dir,'arctic_filelist_jay.txt')
@@ -67,7 +67,7 @@ f = file(fn)
 flist = []
 for line in f:
     name = os.path.join(Data_Dir, line)
-    flist.append(name[:-2])
+    flist.append(name[:-1])
 Time_Map = []
 for fn in flist:
     d = nc4.Dataset(fn)
@@ -103,8 +103,16 @@ StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seas
 # number of start times you want in each season:
 #NumStarts = 5000
 NumStarts = 400
-RunStarts = range(0,NumStarts)
-RunStarts = range(0,50)
+#RunStarts = range(0,NumStarts)
+#RunStarts = range(0,50)
+
+# kludge for iterating runs
+r0= int(sys.argv[2])
+r1= int(sys.argv[3])
+
+print 'RunLims : ', r0,r1
+RunStarts = range(r0,r1)
+
 
 # # Length of release in hours  (0 for instantaneous)
 ReleaseLength = 30*24  # in hours

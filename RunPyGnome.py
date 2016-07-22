@@ -114,7 +114,7 @@ for Season in setup.StartTimeFiles:
             if next_t > end_time:
                 break
         print 'number of ROMS files :: ', len(file_list)
-        
+
         # set up model for this start_time/duration, adding required forcing files
         model = make_model(setup.RootDir)
         model.duration = run_time
@@ -132,7 +132,7 @@ for Season in setup.StartTimeFiles:
         model.movers += i_w_mover
         
         print 'adding an Ice RandomMover:'
-        model.movers += IceAwareRandomMover(ice_conc_var = ice_aware_wind.ice_conc_var, diffusion_coef=5000)
+        model.movers += IceAwareRandomMover(ice_conc_var = ice_aware_wind.ice_conc_var, diffusion_coef=50000)
 
 
         # for pos_idx, start_position in enumerate(start_positions):
@@ -175,7 +175,7 @@ for Season in setup.StartTimeFiles:
             ## clear the old outputters
             model.outputters.clear()
 #            model.outputters += renderer
-            model.outputters += NetCDFOutput(netcdf_output_file,output_timestep=timedelta(hours=4))
+            model.outputters += NetCDFOutput(netcdf_output_file,output_timestep=timedelta(hours=12))
 
             # clear out the old spills:
             model.spills.clear()
