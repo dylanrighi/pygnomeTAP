@@ -44,17 +44,17 @@ TimeSeries = None
 
 # time span of your data set
 # current data files on my laptop...change for Gonzo runs
-DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-               datetime.datetime(1985, 5, 10, 10) 
-               )
+# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+#                datetime.datetime(1985, 5, 10, 10) 
+#                )
 # first 100 ROMS data files
 # DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 #                 datetime.datetime(1986, 3, 21, 22)
 #                 )
 # All ROMS data files (on Gonzo)
-# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-#                 datetime.datetime(2006, 5, 29, 6)
-#                 )
+DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+                datetime.datetime(2006, 5, 29, 6)
+                )
 
 
 DataGaps = ( )
