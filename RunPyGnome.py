@@ -2,13 +2,23 @@
 
 import os, sys, string, math
 from datetime import datetime, timedelta
-import importlib
+# import importlib
 
 import gnome
 from gnome.spill import point_line_release_spill
 from gnome.outputters import Renderer, NetCDFOutput
 
+from datetime import datetime, timedelta
+
 from TAP_Setup import setup
+from gnome.model import Model
+from gnome.utilities.remote_data import get_datafile
+from gnome.map import MapFromBNA
+
+from gnome.movers.py_current_movers import PyGridCurrentMover
+from gnome.movers.py_wind_movers import PyWindMover
+from gnome.movers.random_movers import IceAwareRandomMover
+from gnome.environment.property_classes import IceAwareCurrent, IceAwareWind
 
 #from batch_gnome import batch_gnome
 
@@ -20,36 +30,45 @@ def make_dir(name):
     if not os.path.exists(path):
         os.makedirs(path)
 
-# print "Setting up Master Command File"
-# cfile = batch_gnome.CommandFile()
-# cfile.SaveFilePath   = os.curdir
-# cfile.SaveFileName   = setup.SaveFileName
-# cfile.RunLength      = setup.TrajectoryRunLength
-# cfile.NumLEs         = setup.NumLEs
-# cfile.ModelTimeStep  = setup.ModelTimeStep
+def make_model(base_dir='.'):
+    #,images_dir=os.path.join(base_dir, 'images',gdat_dir='/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/')):
+    print 'initializing the model'
+    print base_dir
+    start_time = datetime(1985, 1, 1, 13, 31)
+    # start with generic times...this will be changed when model is run
+    model = Model(start_time=start_time,
+                  duration=timedelta(hours=96),
+                  time_step=120*60)
+    mapfile = get_datafile(os.path.join(base_dir, 'arctic_coast3.bna'))
+    print mapfile
+    print 'adding the map'
+    model.map = MapFromBNA(mapfile, refloat_halflife=0.0)  # seconds
 
-# NumCubes = len(setup.CubeStartSites)
-NumStarts = setup.NumStarts
-NumSeasons = len(setup.StartTimeFiles)
+    return model
 
-## load up our run script
-sys.path.append(setup.RootDir)
-script = importlib.import_module(setup.PyGnome_script)
+# ## load up our run script
+# sys.path.append(setup.RootDir)
+# script = importlib.import_module(setup.PyGnome_script)
+# print script
+# print dir(script)
+# # model = script.make_model(setup.RootDir)
 
-print script
-print dir(script)
+# Instantiate a generic model
+# model = make_model(setup.RootDir)
 
-model = script.make_model()
 
+# load up the start positions
 start_positions = open(os.path.join(setup.RootDir,
                                     setup.CubeStartSitesFilename)).readlines()
 start_positions = [pos.split(',') for pos in start_positions]
 start_positions = [( float(pos[0]), float(pos[1]) ) for pos in start_positions]
 
+# model timing
 release_duration = timedelta(hours=setup.ReleaseLength)
-
 run_time = timedelta(hours=setup.TrajectoryRunLength)
-model.duration = run_time
+# model.duration = run_time
+
+NumStarts = setup.NumStarts
 
 
 # # loop through seasons
@@ -58,8 +77,10 @@ for Season in setup.StartTimeFiles:
     start_times = open(Season[0],'r').readlines()[:setup.NumStarts]
     #start_times = open(os.path.join(setup.RootDir, "All_yearStarts.txt")).readlines()
 
+    make_dir(os.path.join(setup.RootDir,setup.TrajectoriesPath,SeasonName))
     print Season
 
+    # get and parse start times in this season
     start_dt = []
     for start_time in start_times:
         start_time = [int(i) for i in start_time.split(',')]
@@ -72,13 +93,55 @@ for Season in setup.StartTimeFiles:
         start_dt.append(start_time)
 
 
-    make_dir(os.path.join(setup.RootDir,setup.TrajectoriesPath,SeasonName))
 
-    for pos_idx, start_position in enumerate(start_positions):
-        OutDir = os.path.join(setup.RootDir,setup.TrajectoriesPath,SeasonName,'pos_%03i'%(pos_idx+1))
-        make_dir(OutDir)
 
-        for time_idx, start_time in enumerate(start_dt):
+    # 
+
+    # for time_idx, start_time in enumerate(start_dt):
+    for time_idx in setup.RunStarts:
+        start_time = start_dt[time_idx]
+        end_time = start_time + run_time
+        print start_time, end_time  
+
+        # set up the model with the correct forcing files for this time/duration
+        file_list = []
+        i = 0
+        for i in range(0, len(setup.Time_Map) - 1):
+          curr_t, curr_fn = setup.Time_Map[ i ]
+          next_t, next_fn = setup.Time_Map[ i+1 ]
+          if next_t > start_time:
+            file_list.append( curr_fn )
+            if next_t > end_time:
+                break
+        print 'number of ROMS files :: ', len(file_list)
+        
+        # set up model for this start_time/duration, adding required forcing files
+        model = make_model(setup.RootDir)
+        model.duration = run_time
+        # model.movers.clear()
+
+        print 'adding an Ice CurrentMover (Trapeziod/RK4):'
+        ice_aware_curr = IceAwareCurrent.from_netCDF(filename=file_list,
+                                          grid_topology={'node_lon':'lon','node_lat':'lat'})
+        i_c_mover = PyGridCurrentMover(current=ice_aware_curr, default_num_method='Trapezoid')
+        model.movers += i_c_mover
+
+        print 'adding an Ice WindMover (Euler):'
+        ice_aware_wind = IceAwareWind.from_netCDF(filename=file_list,grid = ice_aware_curr.grid,)
+        i_w_mover = PyWindMover(wind = ice_aware_wind, default_num_method='Euler')
+        model.movers += i_w_mover
+        
+        print 'adding an Ice RandomMover:'
+        model.movers += IceAwareRandomMover(ice_conc_var = ice_aware_wind.ice_conc_var, diffusion_coef=5000)
+
+
+        # for pos_idx, start_position in enumerate(start_positions):
+        for pos_idx in setup.RunSites:
+            start_position = start_positions[pos_idx]
+
+            OutDir = os.path.join(setup.RootDir,setup.TrajectoriesPath,SeasonName,'pos_%03i'%(pos_idx+1))
+            make_dir(OutDir)
+
             print pos_idx, time_idx
             print "Running: start time:", start_time,
             print "At start location:",   start_position
@@ -128,5 +191,25 @@ for Season in setup.StartTimeFiles:
                 #     print "lw positions:", sc['last_water_positions']
 
 
+
+# def make_model(base_dir='.'):
+#     #,images_dir=os.path.join(base_dir, 'images',gdat_dir='/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/')):
+#     print 'initializing the model'
+#     print base_dir
+
+#     start_time = datetime(1985, 1, 1, 13, 31)
+
+#     # 1 day of data in file
+#     # 1/2 hr in seconds
+#     # start with generic times...this will be changed when model is run
+#     model = Model(start_time=start_time,
+#                   duration=timedelta(hours=96),
+#                   time_step=120*60)
+
+#     mapfile = get_datafile(os.path.join(base_dir, 'arctic_coast3.bna'))
+#     print mapfile
+
+#     print 'adding the map'
+#     model.map = MapFromBNA(mapfile, refloat_halflife=0.0)  # seconds
 
 

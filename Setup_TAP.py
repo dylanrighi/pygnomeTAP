@@ -10,6 +10,8 @@ All the data required to set up and build TAP cubes + site.txt file should be in
 import os, datetime
 import numpy as np
 
+import netCDF4 as nc4	
+
 RootDir =  os.path.split(__file__)[0]
 print "Loading TAP Setup data from:", RootDir
 
@@ -42,21 +44,36 @@ TimeSeries = None
 
 # time span of your data set
 # current data files on my laptop...change for Gonzo runs
-# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-#                datetime.datetime(1985, 5, 10, 10) 
-#                )
+DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+               datetime.datetime(1985, 5, 10, 10) 
+               )
 # first 100 ROMS data files
 # DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 #                 datetime.datetime(1986, 3, 21, 22)
 #                 )
 # All ROMS data files (on Gonzo)
-DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-                datetime.datetime(2006, 5, 29, 6)
-                )
+# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+#                 datetime.datetime(2006, 5, 29, 6)
+#                 )
 
 
 DataGaps = ( )
+# Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
+Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
 
+# do some finagling with the start times in the data files
+fn = os.path.join(Data_Dir,'arctic_filelist_jay.txt')
+f = file(fn)
+flist = []
+for line in f:
+    name = os.path.join(Data_Dir, line)
+    flist.append(name[:-2])
+Time_Map = []
+for fn in flist:
+    d = nc4.Dataset(fn)
+    t = d['time']
+    file_start_time = nc4.num2date(t[0], units=t.units)
+    Time_Map.append( (file_start_time, fn) )
 
 # specification for how you want seasons to be defined:
 #  a list of lists:
@@ -85,12 +102,13 @@ StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seas
 
 # number of start times you want in each season:
 #NumStarts = 5000
-NumStarts = 10
+NumStarts = 100
+RunStarts = range(0,NumStarts)
+RunStarts = range(0,2)
 
 # # Length of release in hours  (0 for instantaneous)
-ReleaseLength = 30*24
+ReleaseLength = 30*24  # in hours
 
-# ReleaseLength = 10 *24  # in hours
 
 # name of the GNOME SAV file you want to use
 # note: GNOME locks it (for a very brief time when loading) 
@@ -134,7 +152,11 @@ CubesPath = "Cubes_n" + str(NumLEs)
 # CubesPath = "Cubes_n5000"
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_test.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
+spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
+#RunSites = range(0,len(spos))
+RunSites = range(0,4)
+
 
 # this code reads the file
 CubeStartSites = [x.split("#", 1)[0].strip() for x in open(CubeStartSitesFilename).readlines()]
