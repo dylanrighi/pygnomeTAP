@@ -20,6 +20,8 @@ from gnome.movers.py_wind_movers import PyWindMover
 from gnome.movers.random_movers import IceAwareRandomMover
 from gnome.environment.property_classes import IceAwareCurrent, IceAwareWind
 
+import gc
+
 #from batch_gnome import batch_gnome
 
 # create command file dir if it doesn't exist
@@ -93,12 +95,10 @@ for Season in setup.StartTimeFiles:
         start_dt.append(start_time)
 
 
-
-
-    # 
-
     # for time_idx, start_time in enumerate(start_dt):
     for time_idx in setup.RunStarts:
+        gc.collect()    # Jay addition
+
         start_time = start_dt[time_idx]
         end_time = start_time + run_time
         print start_time, end_time  
@@ -189,27 +189,5 @@ for Season in setup.StartTimeFiles:
                 #     print "status_codes:", sc['status_codes']
                 #     print "positions:", sc['positions']
                 #     print "lw positions:", sc['last_water_positions']
-
-
-
-# def make_model(base_dir='.'):
-#     #,images_dir=os.path.join(base_dir, 'images',gdat_dir='/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/')):
-#     print 'initializing the model'
-#     print base_dir
-
-#     start_time = datetime(1985, 1, 1, 13, 31)
-
-#     # 1 day of data in file
-#     # 1/2 hr in seconds
-#     # start with generic times...this will be changed when model is run
-#     model = Model(start_time=start_time,
-#                   duration=timedelta(hours=96),
-#                   time_step=120*60)
-
-#     mapfile = get_datafile(os.path.join(base_dir, 'arctic_coast3.bna'))
-#     print mapfile
-
-#     print 'adding the map'
-#     model.map = MapFromBNA(mapfile, refloat_halflife=0.0)  # seconds
 
 

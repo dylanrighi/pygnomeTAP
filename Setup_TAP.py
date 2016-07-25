@@ -58,8 +58,8 @@ DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 
 
 DataGaps = ( )
-Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
-# Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
+# Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
+Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
 
 # do some finagling with the start times in the data files
 fn = os.path.join(Data_Dir,'arctic_filelist_jay.txt')
@@ -67,7 +67,8 @@ f = file(fn)
 flist = []
 for line in f:
     name = os.path.join(Data_Dir, line)
-    flist.append(name[:-1])
+    flist.append(name[:-2])   # Gonzo current version
+    # flist.append(name[:-2])   # laptop current version
 Time_Map = []
 for fn in flist:
     d = nc4.Dataset(fn)
@@ -125,7 +126,7 @@ ReleaseLength = 30*24  # in hours
 PyGnome_script = "script_ArcticTAP_orrtap"
 
 # number of Lagrangian elements you want in the GNOME run
-NumLEs = 10000
+NumLEs = 1000
                             
 # we only have "MediumCrude"  in the data for now (see OilWeathering.py)
 OilWeatheringType = None
