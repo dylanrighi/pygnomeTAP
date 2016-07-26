@@ -68,7 +68,7 @@ flist = []
 for line in f:
     name = os.path.join(Data_Dir, line)
     flist.append(name[:-2])   # Gonzo current version
-    # flist.append(name[:-2])   # laptop current version
+    # flist.append(name[:-1])   # laptop current version
 Time_Map = []
 for fn in flist:
     d = nc4.Dataset(fn)
@@ -126,7 +126,7 @@ ReleaseLength = 30*24  # in hours
 PyGnome_script = "script_ArcticTAP_orrtap"
 
 # number of Lagrangian elements you want in the GNOME run
-NumLEs = 1000
+NumLEs = 100
                             
 # we only have "MediumCrude"  in the data for now (see OilWeathering.py)
 OilWeatheringType = None
