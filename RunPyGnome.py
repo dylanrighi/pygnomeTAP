@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os, sys, string, math
+import netCDF4 as nc4
 from datetime import datetime, timedelta
 # import importlib
 
@@ -106,17 +107,17 @@ for Season in setup.StartTimeFiles:
         # set up the model with the correct forcing files for this time/duration
         file_list = []
         i = 0
-          # for i in range(0, len(setup.Time_Map) - 1):
-          #   curr_t, curr_fn = setup.Time_Map[ i ]
-          #   next_t, next_fn = setup.Time_Map[ i+1 ]
-          #   if next_t > start_time:
-          #     file_list.append( curr_fn )
-          #     if next_t > end_time:
-          #         break
-          # print 'number of ROMS files :: ', len(file_list)
-        for i in range(0, 1000 ):
-            curr_t, curr_fn = setup.Time_Map[i]
-            file_list.append( curr_fn )
+        for i in range(0, len(setup.Time_Map) - 1):
+            curr_t, curr_fn = setup.Time_Map[ i ]
+            next_t, next_fn = setup.Time_Map[ i+1 ]
+            if next_t > start_time:
+                file_list.append( curr_fn )
+                if next_t > end_time:
+                    break
+          print 'number of ROMS files :: ', len(file_list)
+        # for i in range(0, 1000 ):
+        #     curr_t, curr_fn = setup.Time_Map[i]
+        #     file_list.append( curr_fn )
 
 
         # set up model for this start_time/duration, adding required forcing files
@@ -124,14 +125,20 @@ for Season in setup.StartTimeFiles:
         model.duration = run_time
         # model.movers.clear()
 
+        print 'creating MFDatset'
+        ds = nc4.MFDatset(file_list)
+
         print 'adding an Ice CurrentMover (Trapeziod/RK4):'
         ice_aware_curr = IceAwareCurrent.from_netCDF(filename=file_list,
-                                          grid_topology={'node_lon':'lon','node_lat':'lat'})
+                                                    dataset=ds,
+                                                    grid_topology={'node_lon':'lon','node_lat':'lat'})
         i_c_mover = PyGridCurrentMover(current=ice_aware_curr, default_num_method='Trapezoid')
         model.movers += i_c_mover
 
         print 'adding an Ice WindMover (Euler):'
-        ice_aware_wind = IceAwareWind.from_netCDF(filename=file_list,grid = ice_aware_curr.grid,)
+        ice_aware_wind = IceAwareWind.from_netCDF(filename=file_list,
+                                                  dataset='ds',
+                                                  grid = ice_aware_curr.grid,)
         i_w_mover = PyWindMover(wind = ice_aware_wind, default_num_method='Euler')
         model.movers += i_w_mover
         
