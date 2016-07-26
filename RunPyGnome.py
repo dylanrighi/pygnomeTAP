@@ -106,14 +106,18 @@ for Season in setup.StartTimeFiles:
         # set up the model with the correct forcing files for this time/duration
         file_list = []
         i = 0
-        for i in range(0, len(setup.Time_Map) - 1):
-          curr_t, curr_fn = setup.Time_Map[ i ]
-          next_t, next_fn = setup.Time_Map[ i+1 ]
-          if next_t > start_time:
+          # for i in range(0, len(setup.Time_Map) - 1):
+          #   curr_t, curr_fn = setup.Time_Map[ i ]
+          #   next_t, next_fn = setup.Time_Map[ i+1 ]
+          #   if next_t > start_time:
+          #     file_list.append( curr_fn )
+          #     if next_t > end_time:
+          #         break
+          # print 'number of ROMS files :: ', len(file_list)
+        for i in range(0, 1000 ):
+            curr_t, curr_fn = setup.Time_Map[i]
             file_list.append( curr_fn )
-            if next_t > end_time:
-                break
-        print 'number of ROMS files :: ', len(file_list)
+
 
         # set up model for this start_time/duration, adding required forcing files
         model = make_model(setup.RootDir)
@@ -131,6 +135,7 @@ for Season in setup.StartTimeFiles:
         i_w_mover = PyWindMover(wind = ice_aware_wind, default_num_method='Euler')
         model.movers += i_w_mover
         
+    
         print 'adding an Ice RandomMover:'
         model.movers += IceAwareRandomMover(ice_conc_var = ice_aware_wind.ice_conc_var, diffusion_coef=50000)
 
