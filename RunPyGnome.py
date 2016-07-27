@@ -125,8 +125,8 @@ for Season in setup.StartTimeFiles:
         model.duration = run_time
         # model.movers.clear()
 
-        print 'creating MFDatset'
-        ds = nc4.MFDatset(file_list)
+        print 'creating MFDataset'
+        ds = nc4.MFDataset(file_list)
         
         print 'adding an Ice CurrentMover (Trapeziod/RK4):'
         ice_aware_curr = IceAwareCurrent.from_netCDF(filename=file_list,
@@ -178,7 +178,8 @@ for Season in setup.StartTimeFiles:
 
             # print "adding netcdf output"
             netcdf_output_file = os.path.join(OutDir,
-                                              'pos_%03i-time_%03i.nc'%(pos_idx+1, time_idx),
+                                              'pos_%03i-t%03i_%08i.nc'%(pos_idx+1, time_idx,
+                                                int(start_time.strftime('%y%m%d%H'))),
                                               )
 
 

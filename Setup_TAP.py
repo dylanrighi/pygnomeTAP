@@ -126,7 +126,7 @@ ReleaseLength = 30*24  # in hours
 PyGnome_script = "script_ArcticTAP_orrtap"
 
 # number of Lagrangian elements you want in the GNOME run
-NumLEs = 100
+NumLEs = 10000
                             
 # we only have "MediumCrude"  in the data for now (see OilWeathering.py)
 OilWeatheringType = None
