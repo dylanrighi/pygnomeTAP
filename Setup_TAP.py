@@ -59,10 +59,11 @@ DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 
 DataGaps = ( )
 # Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
-Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
+# Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
+Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo cat dir
 
 # do some finagling with the start times in the data files
-fn = os.path.join(Data_Dir,'arctic_filelist_jay.txt')
+fn = os.path.join(Data_Dir,'arctic_filelist_cat.txt')
 f = file(fn)
 flist = []
 for line in f:
@@ -161,7 +162,7 @@ CubesPath = "Cubes_n" + str(NumLEs)
 # CubesPath = "Cubes_n5000"
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_test.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
 RunSites = range(0,len(spos))
 # RunSites = range(0,4)
