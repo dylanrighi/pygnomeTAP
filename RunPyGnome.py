@@ -113,6 +113,8 @@ for Season in setup.StartTimeFiles:
             if next_t > start_time:
                 file_list.append( curr_fn )
                 if next_t > end_time:
+                    file_list.append( next_fn )    # pad the list with next file to cover special case of last file. 
+                                                   #   awkward. fix later
                     break
         print 'number of ROMS files :: ', len(file_list)
         # for i in range(0, 1000 ):
