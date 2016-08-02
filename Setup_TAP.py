@@ -68,7 +68,7 @@ f = file(fn)
 flist = []
 for line in f:
     name = os.path.join(Data_Dir, line)
-    flist.append(name[:-2])   # Gonzo current version
+    flist.append(name[:-1])   # Gonzo cat version
     # flist.append(name[:-1])   # laptop current version
 Time_Map = []
 for fn in flist:
@@ -162,11 +162,17 @@ CubesPath = "Cubes_n" + str(NumLEs)
 # CubesPath = "Cubes_n5000"
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_test.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
-RunSites = range(0,len(spos))
+# RunSites = range(0,len(spos))
 # RunSites = range(0,4)
 
+# kludge for iterating runs
+r0= int(sys.argv[4])
+r1= int(sys.argv[5])
+
+print 'RunSites : ', r0,r1
+RunSites = range(r0,r1)
 
 # this code reads the file
 CubeStartSites = [x.split("#", 1)[0].strip() for x in open(CubeStartSitesFilename).readlines()]
