@@ -64,7 +64,8 @@ for ( (Season,junk), CubeRootName ) in zip(setup.Seasons, setup.CubesRootNames):
             TrajName = os.path.join(setup.RootDir,setup.TrajectoriesPath,Season,d)
             CubeName = os.path.join(setup.RootDir, setup.CubesPath, Season, "%s%s%s"%(CubeRootName, d[4:7].zfill(4),".bin") )
             CubesList.append((TrajName, CubeName))
-      
+    print len(CubeList)
+          
 
     # for d in DirList:
     #     # try:
