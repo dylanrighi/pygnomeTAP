@@ -57,8 +57,8 @@ for (season, junk) in setup.Seasons:
 setfile = os.path.join(setup.RootDir,'Setup_TAP.py')
 shutil.copy(setfile, TAPViewerDir)
 
-shutil.copy(setup.PyGnome_script+'.py', TAPViewerDir)
+# shutil.copy(setup.PyGnome_script+'.py', TAPViewerDir)
 
 # move Trajectories to TapViewer dir
-shutil.move(setup.TrajectoriesPath, TAPViewerDir)
+# shutil.move(setup.TrajectoriesPath, TAPViewerDir)
 

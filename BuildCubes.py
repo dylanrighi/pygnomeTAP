@@ -64,8 +64,8 @@ for ( (Season,junk), CubeRootName ) in zip(setup.Seasons, setup.CubesRootNames):
             TrajName = os.path.join(setup.RootDir,setup.TrajectoriesPath,Season,d)
             CubeName = os.path.join(setup.RootDir, setup.CubesPath, Season, "%s%s%s"%(CubeRootName, d[4:7].zfill(4),".bin") )
             CubesList.append((TrajName, CubeName))
-    print len(CubeList)
-          
+    print len(CubesList)
+
 
     # for d in DirList:
     #     # try:
@@ -107,19 +107,32 @@ if setup.ReceptorType == "Grid":
         else:
             print "Compute Cube: %s \n from trajectory files in:\n %s"%(CubeName,TrajFilesDir)
             # TrajFiles = [os.path.join(TrajFilesDir, "time%03i.nc"%(i+1)) for i in range(setup.NumStarts)]
+
             TrajFiles = [os.path.join(TrajFilesDir,i) for i in os.listdir(TrajFilesDir)]
+            
+            # filter TrajFiles list?
+            if setup.CubeStartFilter:
+                tmnth = [int(i[-9:-7]) for i in TrajFiles]
+                nmnth = np.asarray(tmnth)
+                tt = np.where(nmnth == setup.CubeStartFilter)[0]
+                tlist = []
+                for i in tt:
+                    tlist.append(TrajFiles[i])
+                TrajFiles = tlist
+
+
             # make sure they exist
             ## fixme: should I check file size, too.
             for f in TrajFiles:
                 if not os.path.exists(f):
                     raise Exception( "trajectory file missing: %s"%f )
                  
-            print "trajectory files are all there"
-
-            #print "there are %i trajectory files"%len(TrajFiles)
-            #print "The first 5 are:"
-            #for name in TrajFiles[:5]:
-            #    print name
+            print "trajectory files are all there..."
+            print "# of files %s ::" %(str(len(TrajFiles)))
+            print "there are %i trajectory files"%len(TrajFiles)
+            print "The first 5 are:"
+            for name in TrajFiles[:5]:
+               print name
             start = time()
             
             if not os.path.isdir(os.path.split(CubeName)[0]):
