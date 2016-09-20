@@ -44,23 +44,23 @@ TimeSeries = None
 
 # time span of your data set
 # current data files on my laptop...change for Gonzo runs
-# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-#                datetime.datetime(1985, 5, 10, 10) 
-#                )
+DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+               datetime.datetime(1985, 5, 10, 10) 
+               )
 # first 100 ROMS data files
 # DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 #                 datetime.datetime(1986, 3, 21, 22)
 #                 )
 # All ROMS data files (on Gonzo)
-DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-                datetime.datetime(2006, 5, 29, 6)
-                )
+# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+#                 datetime.datetime(2006, 5, 29, 6)
+#                 )
 
 
 DataGaps = ( )
-# Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
+Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
 # Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
-Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo/V_TAP cat dir
+# Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo/V_TAP cat dir
 
 # do some finagling with the start times in the data files
 fn = os.path.join(Data_Dir,'arctic_filelist_cat.txt')
@@ -181,7 +181,7 @@ RunSites = range(r0,r1)
 CubeStartSites = [x.split("#", 1)[0].strip() for x in open(CubeStartSitesFilename).readlines()]
 CubeStartSites = [x for x in CubeStartSites if x]
 
-CubeStartFilter = 10   # January
+CubeStartFilter = []   # January
 
 MapName = "Arctic TAP"
 MapFileName, MapFileType = ("arctic_coast3.bna", "BNA")

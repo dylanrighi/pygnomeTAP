@@ -19,7 +19,7 @@ from gnome.map import MapFromBNA
 from gnome.movers.py_current_movers import PyGridCurrentMover
 from gnome.movers.py_wind_movers import PyWindMover
 from gnome.movers.random_movers import IceAwareRandomMover
-from gnome.environment.property_classes import IceAwareCurrent, IceAwareWind
+from gnome.environment import IceAwareCurrent, IceAwareWind
 
 import gc
 
