@@ -100,9 +100,9 @@ if setup.ReceptorType == "Grid":
             # if setup.CubeStartFilter:
             tmnth = [int(i[-9:-7]) for i in TrajFiles]
             nmnth = np.asarray(tmnth)
-            tt = np.where(nmnth == Months)
+            tt = np.where(np.in1d(nmnth,Months))
             tlist = []
-            for i in tt:
+            for i in tt[0]:
                 tlist.append(TrajFiles[i])
             TrajFiles = tlist
 

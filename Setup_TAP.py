@@ -25,10 +25,6 @@ CubeType = "Volume" # should be either "Volume" or "Cumulative"
 ##   uint16 is a mid-point -- probably good to 10,000 LEs or so
 CubeDataType = 'float32' 
 
-## Batch GNOME Data:
-## You can use multiple machines in parallel to do many runs
-NumTrajMachines = 2
-
 # Files with time series records in them used by GNOME
 # These are used to compute the possible time files. The format is:
 # It is a list of one or more time files. each file is desribed with a tuple:
@@ -44,23 +40,23 @@ TimeSeries = None
 
 # time span of your data set
 # current data files on my laptop...change for Gonzo runs
-DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-               datetime.datetime(1985, 5, 10, 10) 
-               )
+# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+#                datetime.datetime(1985, 5, 10, 10) 
+#                )
 # first 100 ROMS data files
 # DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
 #                 datetime.datetime(1986, 3, 21, 22)
 #                 )
 # All ROMS data files (on Gonzo)
-# DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
-#                 datetime.datetime(2006, 5, 29, 6)
-#                 )
+DataStartEnd = (datetime.datetime(1985, 1, 1, 14),
+                datetime.datetime(2006, 5, 29, 6)
+                )
 
 
 DataGaps = ( )
-Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
+# Data_Dir = 'C:\Users\dylan.righi\Science\ArcticTAP\data_gnome\ROMS_h2ouv'   # Laptop
 # Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
-# Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo/V_TAP cat dir
+Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo/V_TAP cat dir
 
 # do some finagling with the start times in the data files
 fn = os.path.join(Data_Dir,'arctic_filelist_cat.txt')
@@ -146,8 +142,7 @@ class Grid:
 	pass
 Grid.min_lat = 65.0 # decimal degrees
 Grid.max_lat = 80.0
-Grid.dlat = 0.15       # makes 17km tall receptor cells 
-
+Grid.dlat = 0.15       # makes 17km tall receptor cells I
 Grid.min_long = 170.0
 Grid.max_long = 230.0
 Grid.dlong = 0.5       # 17km wide cells at 70N, 15 at 75N, 23 at 65N
