@@ -62,7 +62,7 @@ for ( (Season,Months), CubeRootName ) in zip(setup.Seasons, setup.CubesRootNames
         if GoOn:
             TrajName = os.path.join(setup.RootDir,setup.TrajectoriesPath,Season,d)
             CubeName = os.path.join(setup.RootDir, setup.CubesPath, Season, "%s%s%s"%(CubeRootName, d[4:7].zfill(4),".bin") )
-            CubesList.append((TrajName, CubeName))
+            CubesList.append((TrajName, CubeName, Months))
     print len(CubesList)
 
 
@@ -77,7 +77,7 @@ if setup.ReceptorType == "Grid":
                              Grid.num_lat,
                              Grid.num_long)
     
-    for TrajFilesDir, CubeName in CubesList:
+    for TrajFilesDir, CubeName, Months in CubesList:
         print 
         print "processing Cube::", CubeName 
         if not os.path.isdir(TrajFilesDir):
