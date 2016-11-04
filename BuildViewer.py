@@ -50,7 +50,7 @@ for (season, junk) in setup.Seasons:
     
     for name in os.listdir(SeasonCubesPath):
         print "Moving:", name
-        shutil.move(os.path.join(SeasonCubesPath,name),
+        shutil.copy(os.path.join(SeasonCubesPath,name),
                      os.path.join(SeasonPath,name) )
 
 # copy the script and Setup_TAP files to viewer dir for archive

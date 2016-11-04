@@ -58,20 +58,6 @@ DataGaps = ( )
 # Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_h2ouv/'  # Gonzo
 Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo/V_TAP cat dir
 
-# do some finagling with the start times in the data files
-fn = os.path.join(Data_Dir,'arctic_filelist_cat.txt')
-f = file(fn)
-flist = []
-for line in f:
-    name = os.path.join(Data_Dir, line)
-    flist.append(name[:-1])   # Gonzo cat version
-    # flist.append(name[:-1])   # laptop current version
-Time_Map = []
-for fn in flist:
-    d = nc4.Dataset(fn)
-    t = d['time']
-    file_start_time = nc4.num2date(t[0], units=t.units)
-    Time_Map.append( (file_start_time, fn) )
 
 # specification for how you want seasons to be defined:
 #  a list of lists:
@@ -88,8 +74,8 @@ for fn in flist:
 #          ["Summer",[4, 5, 6, 7, 8, 9, 10]],]
 Seasons = [
           ["AllYear", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-          ["Ice", [12, 1, 2, 3, 4, 5]],
-          ["NoIce",  [6, 7, 8, 9, 10, 11 ]], 
+          # ["Ice", [12, 1, 2, 3, 4, 5]],
+          # ["NoIce",  [6, 7, 8, 9, 10, 11 ]], 
           # ["Winter", [12, 1, 2, 3, 4, 5]],
           # ["Summer",  [6, 7, 8, 9, 10, 11 ]], 
           # ["Spring",  [3, 4, 5 ]], 
@@ -101,8 +87,7 @@ Seasons = [
 StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seasons]
 
 # number of start times you want in each season:
-NumStarts = 500
-
+NumStarts = 505
 #RunStarts = range(0,NumStarts)
 #RunStarts = range(0,50)
 
@@ -118,14 +103,16 @@ RunFiles = []
 
 
 # # Length of release in hours  (0 for instantaneous)
-ReleaseLength = 30*24 # in hours
+ReleaseLength = 30*24   # platforms
+# ReleaseLength = 6       # vessels
+# ReleaseLength = 48      # pipelines
 
 
 # name of the GNOME SAV file you want to use
 # note: GNOME locks it (for a very brief time when loading) 
 # which means you need a separate copy for each
 # instance of GNOME you want to run (OR just don't start multiple GNOMES too quickly)
-PyGnome_script = "script_ArcticTAP_orrtap"
+# PyGnome_script = "script_ArcticTAP_orrtap"
 
 # number of Lagrangian elements you want in the GNOME run
 NumLEs = 10000
@@ -158,14 +145,13 @@ TrajectoriesPath = "Trajectories_n" + str(NumLEs) # relative to RootDir
 #TrajectoriesRootname = "FlStr_Traj"
 
 
-CubesPath = "Cubes_n" + str(NumLEs)
-# CubesPath = "Cubes_n5000"
+CubesPath = "CubesPlat_n" + str(NumLEs)
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
 CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
+# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_vessels.txt")
+# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_pipelines.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
-# RunSites = range(0,len(spos))
-# RunSites = range(0,4)
 
 # kludge for iterating runs
 r0= int(sys.argv[4])
@@ -223,7 +209,7 @@ PresetSpillAmounts = ["1000 barrels", "100 barrels"]
 TAPViewerSource = RootDir # where the TAP view, etc lives.
 ## setup for the Viewer"
 
-TAPViewerPath = "TapView_n" + str(NumLEs)
+TAPViewerPath = "TapView_" + str(NumLEs)
 print TAPViewerPath
 # TAPViewerPath = "TapView_n5000"
 

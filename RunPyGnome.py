@@ -59,6 +59,21 @@ def make_model(base_dir='.'):
 # Instantiate a generic model
 # model = make_model(setup.RootDir)
 
+# do some finagling with the start times in the data files
+fn = os.path.join(setup.Data_Dir,'arctic_filelist_cat.txt')
+f = file(fn)
+flist = []
+for line in f:
+    name = os.path.join(setup.Data_Dir, line)
+    flist.append(name[:-1])   # Gonzo cat version
+    # flist.append(name[:-1])   # laptop current version
+Time_Map = []
+for fn in flist:
+    d = nc4.Dataset(fn)
+    t = d['time']
+    file_start_time = nc4.num2date(t[0], units=t.units)
+    Time_Map.append( (file_start_time, fn) )
+
 
 # load up the start positions
 start_positions = open(os.path.join(setup.RootDir,
@@ -107,9 +122,9 @@ for Season in setup.StartTimeFiles:
         # set up the model with the correct forcing files for this time/duration
         file_list = []
         i = 0
-        for i in range(0, len(setup.Time_Map) - 1):
-            curr_t, curr_fn = setup.Time_Map[ i ]
-            next_t, next_fn = setup.Time_Map[ i+1 ]
+        for i in range(0, len(Time_Map) - 1):
+            curr_t, curr_fn = Time_Map[ i ]
+            next_t, next_fn = Time_Map[ i+1 ]
             if next_t > start_time:
                 file_list.append( curr_fn )
                 if next_t > end_time:
@@ -120,7 +135,7 @@ for Season in setup.StartTimeFiles:
         print file_list
         
         # for i in range(0, 1000 ):
-        #     curr_t, curr_fn = setup.Time_Map[i]
+        #     curr_t, curr_fn = Time_Map[i]
         #     file_list.append( curr_fn )
 
 
