@@ -74,8 +74,8 @@ Data_Dir = '/data/dylan/ArcticTAP/data_gnome/ROMS_cat/'  # Gonzo/V_TAP cat dir
 #          ["Summer",[4, 5, 6, 7, 8, 9, 10]],]
 Seasons = [
           ["AllYear", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-          # ["Ice", [12, 1, 2, 3, 4, 5]],
-          # ["NoIce",  [6, 7, 8, 9, 10, 11 ]], 
+          ["Ice", [12, 1, 2, 3, 4, 5]],
+          ["NoIce",  [6, 7, 8, 9, 10, 11 ]], 
           # ["Winter", [12, 1, 2, 3, 4, 5]],
           # ["Summer",  [6, 7, 8, 9, 10, 11 ]], 
           # ["Spring",  [3, 4, 5 ]], 
@@ -87,7 +87,7 @@ Seasons = [
 StartTimeFiles = [(os.path.join(RootDir, s[0]+'Starts.txt'), s[0]) for s in Seasons]
 
 # number of start times you want in each season:
-NumStarts = 505
+NumStarts = 500
 #RunStarts = range(0,NumStarts)
 #RunStarts = range(0,50)
 
@@ -103,9 +103,9 @@ RunFiles = []
 
 
 # # Length of release in hours  (0 for instantaneous)
-ReleaseLength = 30*24   # platforms
+# ReleaseLength = 30*24   # platforms
 # ReleaseLength = 6       # vessels
-# ReleaseLength = 48      # pipelines
+ReleaseLength = 48      # pipelines
 
 
 # name of the GNOME SAV file you want to use
@@ -145,12 +145,12 @@ TrajectoriesPath = "Trajectories_n" + str(NumLEs) # relative to RootDir
 #TrajectoriesRootname = "FlStr_Traj"
 
 
-CubesPath = "CubesPlat_n" + str(NumLEs)
+CubesPath = "Cubes_n" + str(NumLEs)
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
+# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
 # CubeStartSitesFilename = os.path.join(RootDir, "Arctic_vessels.txt")
-# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_pipelines.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_pipelines.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
 
 # kludge for iterating runs
