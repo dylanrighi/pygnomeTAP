@@ -103,9 +103,9 @@ RunFiles = []
 
 
 # # Length of release in hours  (0 for instantaneous)
-# ReleaseLength = 30*24   # platforms
+ReleaseLength = 30*24   # platforms
 # ReleaseLength = 6       # vessels
-ReleaseLength = 48      # pipelines
+# ReleaseLength = 48      # pipelines
 
 
 # name of the GNOME SAV file you want to use
@@ -148,9 +148,9 @@ TrajectoriesPath = "Trajectories_n" + str(NumLEs) # relative to RootDir
 CubesPath = "Cubes_n" + str(NumLEs)
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
 # CubeStartSitesFilename = os.path.join(RootDir, "Arctic_vessels.txt")
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_pipelines.txt")
+# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_pipelines.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
 
 # kludge for iterating runs
