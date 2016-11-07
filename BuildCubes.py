@@ -112,7 +112,7 @@ if setup.ReceptorType == "Grid":
                 tlist = TrajFiles[0:250]
                 for i in TrajFiles[0:250]:  
                     tlist.append(i)
-
+            TrajFiles = tlist
 
 
             # make sure they exist
