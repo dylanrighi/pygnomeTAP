@@ -11,7 +11,7 @@ UsePlatform yes
 SpillLatLong  23.37441667  -82.49286111   // 23°22'27.9"N--82°29'34.3"W
 
 FixedOilItemNum  7  // note: always use 7 (Non_Weathering) unless you want TAP to weather the oil according to its formulas. 
-FixedOilItemAlias  "Medium Crude" // name shown to the user
+FixedOilItemAlias  "Non-weathering" // name shown to the user
 UseThreatBySpill no
 UseResourceAnalysis no
 

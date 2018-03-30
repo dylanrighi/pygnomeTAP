@@ -34,9 +34,9 @@ shutil.copy(os.path.join(setup.RootDir,"site.txt"), TAPDATADir)
 shutil.copy(os.path.join(setup.TAPViewerSource, setup.MapFileName), TAPDATADir)
 
 # copy the start times file (not required, but it's good to have it there
-print setup.StartTimeFiles
-for (filename, _) in setup.StartTimeFiles:
-    shutil.copy(filename, TAPDATADir)
+# print setup.StartTimeFiles
+# for (filename, _) in setup.StartTimeFiles:
+#     shutil.copy(filename, TAPDATADir)
 
 FullCubesPath = os.path.join(setup.RootDir, setup.CubesPath) 
 
@@ -50,7 +50,7 @@ for (season, junk) in setup.Seasons:
     
     for name in os.listdir(SeasonCubesPath):
         print "Moving:", name
-        shutil.copy(os.path.join(SeasonCubesPath,name),
+        shutil.move(os.path.join(SeasonCubesPath,name),
                      os.path.join(SeasonPath,name) )
 
 # copy the script and Setup_TAP files to viewer dir for archive

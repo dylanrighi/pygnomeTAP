@@ -103,8 +103,8 @@ RunFiles = []
 
 
 # # Length of release in hours  (0 for instantaneous)
-# ReleaseLength = 30*24   # platforms
-ReleaseLength = 6       # vessels
+ReleaseLength = 30*24   # platforms
+# ReleaseLength = 6       # vessels
 # ReleaseLength = 48      # pipelines
 
 
@@ -145,11 +145,14 @@ TrajectoriesPath = "Trajectories_n" + str(NumLEs) # relative to RootDir
 #TrajectoriesRootname = "FlStr_Traj"
 
 
-CubesPath = "Cubes_n" + str(NumLEs)
+CubesPath = "CubesPlat_n" + str(NumLEs)
+# CubesPath = "CubesVess_n" + str(NumLEs)
+# CubesPath = "CubesPipe_n" + str(NumLEs)
+
 CubesRootNames = ["Arc_" for i in StartTimeFiles] # built to match the start time files
 
-# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_platforms_all2.txt")
-CubeStartSitesFilename = os.path.join(RootDir, "Arctic_vessels.txt")
+CubeStartSitesFilename = os.path.join(RootDir, "Arctic_Audobon.txt")
+# CubeStartSitesFilename = os.path.join(RootDir, "Arctic_vessels.txt")
 # CubeStartSitesFilename = os.path.join(RootDir, "Arctic_pipelines.txt")
 spos = open(os.path.join(RootDir,CubeStartSitesFilename)).readlines()
 
