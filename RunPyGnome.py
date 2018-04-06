@@ -16,7 +16,7 @@ from gnome.model import Model
 from gnome.utilities.remote_data import get_datafile
 from gnome.map import MapFromBNA
 
-from gnome.movers.py_current_movers import PyGridCurrentMover
+from gnome.movers.py_current_movers import PyCurrentMover
 from gnome.movers.py_wind_movers import PyWindMover
 from gnome.movers.random_movers import IceAwareRandomMover
 from gnome.environment import IceAwareCurrent, IceAwareWind
@@ -151,7 +151,7 @@ for Season in setup.StartTimeFiles:
         ice_aware_curr = IceAwareCurrent.from_netCDF(filename=file_list,
                                                      dataset=ds,
                                                      grid_topology={'node_lon':'lon','node_lat':'lat'})
-        i_c_mover = PyGridCurrentMover(current=ice_aware_curr, default_num_method='Trapezoid')
+        i_c_mover = PyCurrentMover(current=ice_aware_curr, default_num_method='Trapezoid')
         model.movers += i_c_mover
 
         print 'adding an Ice WindMover (Euler):'
