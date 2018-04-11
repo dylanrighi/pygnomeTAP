@@ -152,7 +152,7 @@ for Season in setup.StartTimeFiles:
         ice_aware_curr = IceAwareCurrent.from_netCDF(filename=file_list,
                                                      dataset=ds,
                                                      grid_topology={'node_lon':'lon','node_lat':'lat'})
-        i_c_mover = PyCurrentMover(current=ice_aware_curr, default_num_method='Trapezoid')
+        i_c_mover = PyCurrentMover(current=ice_aware_curr, default_num_method='RK4')
         model.movers += i_c_mover
 
         print 'adding an Ice WindMover (Euler):'
