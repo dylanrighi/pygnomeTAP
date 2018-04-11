@@ -163,7 +163,7 @@ for Season in setup.StartTimeFiles:
         model.movers += i_w_mover
         
         print 'adding an Ice RandomMover:'
-        model.movers += IceAwareRandomMover(ice_conc_var = ice_aware_wind.ice_conc_var, diffusion_coef=50000)
+        model.movers += IceAwareRandomMover(diffusion_coef=50000)
 
 
 
